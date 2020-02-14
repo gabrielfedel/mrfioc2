@@ -11,7 +11,7 @@ cache:
 
 env:
   global:
-    - SETUP_PATH=.ci
+    - SETUP_PATH=.ci:.ci-local
     - MODULES="devlib2"
     - DEVLIB2=master
 
@@ -39,6 +39,7 @@ addons:
 
 install:
   - ./.ci/travis/prepare.sh
+  - ./.ci-local/install-msi.sh
 
 script:
   - ./.ci/travis/build.sh
@@ -68,62 +69,62 @@ jobs:
   include:
 
 # Different configurations of default gcc and clang
-  - env: BASE=7.0
-
-  - env: BASE=7.0
-    compiler: clang
-
-  - env: BASE=7.0 EXTRA="CMD_CXXFLAGS=-std=c++11"
-
-  - env: BASE=7.0 EXTRA="CMD_CXXFLAGS=-std=c++11"
-    compiler: clang
-
-# Trusty: compiler versions very close to RHEL 7
-
-  - env: BASE=7.0
-    dist: trusty
-
-  - env: BASE=7.0 EXTRA="CMD_CXXFLAGS=-std=c++11"
-    dist: trusty
-
-# Cross-compilations to Windows using MinGW and WINE
-    
-  - env: BASE=7.0 WINE=32 TEST=NO STATIC=YES
-    compiler: mingw
-
-  - env: BASE=7.0 WINE=64 TEST=NO STATIC=NO
-    compiler: mingw
-
-# Cross-compilation to RTEMS
-
-  - env: BASE=7.0 RTEMS=4.10 TEST=NO
-
-  - env: BASE=7.0 RTEMS=4.9 TEST=NO
-
-# Other gcc versions (added as an extra package)
-
-  - env: BASE=7.0
-    compiler: gcc-6
-    addons: { apt: { packages: ["g++-6"], sources: ["ubuntu-toolchain-r-test"] } }
-
-  - env: BASE=7.0
-    compiler: gcc-7
-    addons: { apt: { packages: ["g++-7"], sources: ["ubuntu-toolchain-r-test"] } }
-
-# MacOS build
-
-  - env: BASE=7.0
-    os: osx
-    compiler: clang
-
-# Older builds
-  - env: BASE=3.15 STATIC=shared
+#  - env: BASE=7.0
+#
+#  - env: BASE=7.0
+#    compiler: clang
+#
+#  - env: BASE=7.0 EXTRA="CMD_CXXFLAGS=-std=c++11"
+#
+#  - env: BASE=7.0 EXTRA="CMD_CXXFLAGS=-std=c++11"
+#    compiler: clang
+#
+## Trusty: compiler versions very close to RHEL 7
+#
+#  - env: BASE=7.0
+#    dist: trusty
+#
+#  - env: BASE=7.0 EXTRA="CMD_CXXFLAGS=-std=c++11"
+#    dist: trusty
+#
+## Cross-compilations to Windows using MinGW and WINE
+#    
+#  - env: BASE=7.0 WINE=32 TEST=NO STATIC=YES
+#    compiler: mingw
+#
+#  - env: BASE=7.0 WINE=64 TEST=NO STATIC=NO
+#    compiler: mingw
+#
+## Cross-compilation to RTEMS
+#
+#  - env: BASE=7.0 RTEMS=4.10 TEST=NO
+#
+#  - env: BASE=7.0 RTEMS=4.9 TEST=NO
+#
+## Other gcc versions (added as an extra package)
+#
+#  - env: BASE=7.0
+#    compiler: gcc-6
+#    addons: { apt: { packages: ["g++-6"], sources: ["ubuntu-toolchain-r-test"] } }
+#
+#  - env: BASE=7.0
+#    compiler: gcc-7
+#    addons: { apt: { packages: ["g++-7"], sources: ["ubuntu-toolchain-r-test"] } }
+#
+## MacOS build
+#
+#  - env: BASE=7.0
+#    os: osx
+#    compiler: clang
+#
+## Older builds
+#  - env: BASE=3.15 STATIC=shared
   - env: BASE=3.14 STATIC=shared
   - env: BASE=3.14 STATIC=static
-  - dist: trusty
-    env: KSER=3.x KVER=3.2.1 EXTRA="-C mrmShared/linux KERNELDIR=$HOME/linux"
-  - dist: trusty
-    env: KSER=3.x KVER=3.16.1 EXTRA="-C mrmShared/linux KERNELDIR=$HOME/linux"
-  - env: KSER=4.x KVER=4.9.1 EXTRA="-C mrmShared/linux KERNELDIR=$HOME/linux"
-  - env: KSER=4.x KVER=4.19.67 EXTRA="-C mrmShared/linux KERNELDIR=$HOME/linux"
+    #  - dist: trusty
+    #    env: KSER=3.x KVER=3.2.1 EXTRA="-C mrmShared/linux KERNELDIR=$HOME/linux"
+    #  - dist: trusty
+    #    env: KSER=3.x KVER=3.16.1 EXTRA="-C mrmShared/linux KERNELDIR=$HOME/linux"
+    #  - env: KSER=4.x KVER=4.9.1 EXTRA="-C mrmShared/linux KERNELDIR=$HOME/linux"
+    #  - env: KSER=4.x KVER=4.19.67 EXTRA="-C mrmShared/linux KERNELDIR=$HOME/linux"
 
