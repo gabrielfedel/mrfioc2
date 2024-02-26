@@ -1,0 +1,33 @@
+name: Create the DEB
+
+permissions:
+  contents: write
+
+on:
+  push:
+    paths:
+      - "mrmShared/linux/**"
+  pull_request:
+    paths:
+      - "mrmShared/linux/**"
+  workflow_dispatch:
+
+jobs:
+  Create_Packages:
+    name: Create Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          path: "REPO"
+
+      - name: Build pakckage
+        run:
+          cd mrmShared/linux
+          dpkg-buildpackage
+
+      - name: Release the Package
+        uses: softprops/action-gh-release@v1
+        with:
+          files: mrf-dkms_3-0_all.deb
