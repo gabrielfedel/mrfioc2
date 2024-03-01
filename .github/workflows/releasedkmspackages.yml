@@ -5,13 +5,8 @@ permissions:
 
 on:
   push:
-    paths:
-      - "mrmShared/linux/**"
     tags:
-  pull_request:
-    paths:
-      - "mrmShared/linux/**"
-  workflow_dispatch:
+        - 'kd*'
 
 jobs:
   Create_Packages:
