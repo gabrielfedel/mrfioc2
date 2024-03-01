@@ -1,4 +1,4 @@
-name: Create the DEB
+name: Create deb and rpm package
 
 permissions:
   contents: write
@@ -15,7 +15,7 @@ on:
 
 jobs:
   Create_Packages:
-    name: Create Package
+    name: Create Packages
     runs-on: ubuntu-latest
     steps:
       - name: "apt-get install"
@@ -27,12 +27,15 @@ jobs:
         with:
           path: "REPO"
 
-      - name: Build pakckage
+      - name: Build packages
         run: |
             cd REPO/mrmShared/linux
             dpkg-buildpackage
+            cd dkms-rpm
+            make
       - name: Release the Package
         uses: softprops/action-gh-release@v1
         with:
           files: |
               REPO/mrmShared/*.deb
+              REPO/mrmShared/linux/dkms-rpm/rpmbuild/RPMS/*/*.rpm
