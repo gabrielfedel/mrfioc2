@@ -1,6 +1,12 @@
 name: Linux latest kernel module test
 
 on:
+  push:
+    paths:
+      - "mrmShared/linux/**"
+  pull_request:
+    paths:
+      - "mrmShared/linux/**"
   workflow_dispatch:
 
 jobs:
